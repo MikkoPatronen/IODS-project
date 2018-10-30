@@ -1,3 +1,5 @@
+----
+output
 
 ## Introduction to Open Data Science 2018
 This course will provide a lot of very useful basic knowledge on open source data workflow.
