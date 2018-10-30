@@ -1,4 +1,6 @@
 
-# About the project
+## Introduction to Open Data Science 2018
+This course will provide a lot of very useful basic knowledge on open source data workflow.
 
-*Write a short description about the course and add a link to your github repository here. This is an R markdown (.Rmd) file so you can use R markdown syntax. See the 'Useful links' page in the mooc area (chapter 1) for instructions.*
+Link to my GitHub repository:  
+<https://github.com/MikkoPatronen/IODS-project>
