@@ -1,13 +1,8 @@
 # 2. Regression and model validation
 
-*Describe the work you have done this week and summarize your learning.*
-
-- Describe your work and results clearly. 
-- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
-- Assume the reader has no previous knowledge of your data or the more advanced methods you are using  
 
 
-### The structure and dimensions of the data
+### 1. The structure and dimensions of the data
 
 ```{r, echo=FALSE}
 learning2014 <- read.csv(file = "/Users/mikko/Documents/GitHub/IODS-project/data/learning2014.csv", header = T, sep=",")
@@ -17,7 +12,7 @@ str(learning2014)
 The data is a subset of all the variables from the data: "International survey of Approaches to Learning". The data consists of 166 rows (observations) and 7 columns (variables).
 The variables are "gender","age","attitude", "deep", "stra", "surf" and "points". The variables "gender" (in years) and "age" (M=male, F=female) are self-explanatory. The variable "attitude" describes global attitude toward statistics (it is sum of ten variables). The variable "deep" describes deep approach (it is a mean of three variables). The variable "stra" describes strategic approach (it is a mean of two variables). The variable "surf" describes surface approach (it is a mean of three variables). The variable "points" is exam points.
 
-### A graphical overview and summaries of variables in the data
+### 2. A graphical overview and summaries of variables in the data
 
 
 ```{r, echo=FALSE}
@@ -36,7 +31,7 @@ p
 
 There are almost twice as many answers from females (n = 110) than males (n = 56). Their age varies between 17 and 55 years, half of the participants being at least 22 years old.
 
-### Regression model
+### 3. Regression model
 
 I chose the variables "attitude", "stra" and "surf" as explanatory variables for the target variable "points". Here is the summary for the fitted model:
 
@@ -68,3 +63,16 @@ my_model <- lm(points ~ attitude, data = learning2014)
 summary(my_model)
 ```
 
+This model has an assumption that the attitude towards statistics has a linear relationship with
+exam points. The explanatory variable "attitude" has a statistically significant relationship with the target variable "points" (p-value almost 0). 
+
+### 4.
+
+The model shows that the y-intercept is at 11.637 and the linear model has a positive slope of 0.353, which means that when the attitude goes up one point, the exam points rise 0.353. This seems reasonable. 
+
+Multiple R squared can be interpreted as displaying the amount of variance (in percentages) the explanatory variable(s) explain in the target variable. So in this model it could be interpreted that the attitude explains about 19 percent of the variance in exam points.
+
+### 5.
+
+
+The model has an assumption that the residuals are normally distributed. The residuals are the differences between the predicted and observed values in a given point. 

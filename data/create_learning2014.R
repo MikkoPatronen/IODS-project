@@ -113,5 +113,18 @@ my_model <- lm(points ~ attitude + stra + surf, data = learning2014)
 # print out a summary of the model
 summary(my_model)
 
+# fit a linear model
+my_model <- lm(points ~ attitude + stra, data = learning2014)
+
+# print out a summary of the model
+summary(my_model)
+
+# fit a linear model
+my_model <- lm(points ~ attitude, data = learning2014)
+
+# print out a summary of the model
+summary(my_model)
+
+
 ##########################################################################
 
