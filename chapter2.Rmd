@@ -68,4 +68,3 @@ my_model <- lm(points ~ attitude, data = learning2014)
 summary(my_model)
 ```
 
-
