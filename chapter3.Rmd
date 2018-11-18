@@ -16,9 +16,10 @@ Two variables are describing the student's alcohol use. The variable "alc_use" i
 
 I chose 4 variables that I believe to have some relationship with the alcohol consumption. The variables are "sex", "studytime", "activities" and "romantic". The gender ("sex"), extra-curricular activities ("activities") and relationship status ("romantic") are binary variables. Weekly studytime is numeric varying in 4 different categories between 1 and 10 hours. I would hypothesize that males, those who do not have extra-curricular activities, those who are not in a romantic relationship, and those with lower amounts of weekly studytime, have higher probability to high use alcohol consumption. 
 
-### *Tables and numeric evaluation of the relationships*
+### *Tables and numerical evaluation of the relationships*
 
-I think a barplot will describe the relationships quite well.
+I think a barplot will describe the relationships quite well. This barplot shows the mean of alcohol consumption according to gender. It can clearly be seen from the plot that males are the majority in larger means of alcohol consumption. This is especially clear when the mean value is 3 or higher. 
+
 
 ```{R}
 library(ggplot2)
@@ -28,5 +29,11 @@ g1
 
 ```
 
-It can clearly be seen from the plot that males are the majority in larger means of alcohol consumption. This is especially clear when the mean value is 3 or higher. 
+The next barplot shows the mean of alcohol consumption according to the binary variable "activities", which describes whether or not the individual has extra-curricular activities. This plot is not as clear as the previous one, but those who do not have extra-curricular activities are a slight majority in mean values above 2, which supports our hypothesis.
 
+```{R}
+g3<-ggplot(data = alc2, aes(x = alc_use))
+g3 <- g3 + geom_bar(aes(fill=activities))
+g3
+
+```
