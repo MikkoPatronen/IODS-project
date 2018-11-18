@@ -18,31 +18,57 @@ I chose 4 variables that I believe to have some relationship with the alcohol co
 
 ### *Tables and numerical evaluation of the relationships*
 
-I think a barplot will describe the relationships quite well. This barplot shows the mean of alcohol consumption according to gender. It can clearly be seen from the plot that males are the majority in larger means of alcohol consumption. This is especially clear when the mean value is 3 or higher. 
+#### High alcohol use vs. gender
+
+I think a barplot will describe the relationships quite well. This barplot below shows the mean of alcohol consumption according to gender. It can clearly be seen from the plot that males are the majority in larger means of alcohol consumption. This is especially clear when the mean value is 3 or higher. The summary statistic by group tells us the numbers: there are 72 males and 42 females in the high alcohol use group. This supports our hypothesis.
 
 
-```{R}
+```{r, echo=FALSE}
+library(dplyr)
 library(ggplot2)
 g1<-ggplot(data = alc2, aes(x = alc_use))
 g1 <- g1 + geom_bar(aes(fill=sex))
 g1
 
+alc2 %>% group_by(sex, high_use) %>% summarise(count = n())
+
 ```
 
-The next barplot shows the mean of alcohol consumption according to the binary variable "activities", which describes whether or not the individual has extra-curricular activities. This plot is not as clear as the previous one, but those who do not have extra-curricular activities are a slight majority in mean values above 2, which supports our hypothesis.
 
-```{R}
+#### High alcohol use vs. extra-curricular activities
+
+The next barplot shows the mean of alcohol consumption according to the binary variable "activities", which describes whether or not the individual has extra-curricular activities. This plot is not as clear as the previous one, but those who do not have extra-curricular activities are a slight majority in mean values above 2. The summary statistic by group shows that there are 59 "no's" and 55 "yes's" in the high alcohol use group. This supports our hypothesis, but is really small difference.
+
+```{r, echo=FALSE}
 g3<-ggplot(data = alc2, aes(x = alc_use))
 g3 <- g3 + geom_bar(aes(fill=activities))
 g3
 
+alc2 %>% group_by(activities, high_use) %>% summarise(count = n())
 ```
 
-The next barplot shows the mean of alcohol consumption according to the binary variable "romantic", which describes whether or not the individual is in a romantic relationship. This plot clearly supports our hypothesis: those who are not in a romantic relationship are the majority in mean values of 2 and higher. 
+#### High alcohol use vs. being in a romantic relationship
 
-```{R}
+The next barplot shows the mean of alcohol consumption according to the binary variable "romantic", which describes whether or not the individual is in a romantic relationship. This plot clearly supports our hypothesis: those who are not in a romantic relationship are the majority in mean values of 2 and higher. The summary statistic by group is also very clear to support our hypothesis by showing that in the high alcohol use group there are 81 of those who are not in a romantic relationship but only 33 of those who are in a romantic relationship.
+
+```{r, echo=FALSE}
 g3<-ggplot(data = alc2, aes(x = alc_use))
 g3 <- g3 + geom_bar(aes(fill=romantic))
 g3
 
+alc2 %>% group_by(romantic, high_use) %>% summarise(count = n())
+```
+
+
+
+
+
+
+### Logistic regression
+
+Next I will conduct a logistic regression analysis to study the relationships between the independent variables ("sex", "studytime", "activities" and "romantic") and the dependent variable (high_use: the mean alcohol use > 2). Here is the summary of the analysis:
+
+```{r, echo=FALSE}
+reg <- glm(high_use ~ sex + romantic + activities + studytime , data = alc2, family = "binomial")
+summary(reg)
 ```
