@@ -1,0 +1,7 @@
+# 3: Logistic regression
+
+### 
+
+The data consists of two data sets retrieved from the UCI Machine Learning Repository
+from Student performance dataset at https://archive.ics.uci.edu/ml/datasets/Student+Performance).
+# Source: professor Paulo Cortez, University of Minho, Guimares, Portugal, http://www3.dsi.uminho.pt/pcortez
