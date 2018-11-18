@@ -2,6 +2,15 @@
 
 ### 
 
-The data consists of two data sets retrieved from the UCI Machine Learning Repository
-from Student performance dataset at https://archive.ics.uci.edu/ml/datasets/Student+Performance).
-# Source: professor Paulo Cortez, University of Minho, Guimares, Portugal, http://www3.dsi.uminho.pt/pcortez
+The data consists of two data sets retrieved from the UCI Machine Learning Repository using Student performance dataset from https://archive.ics.uci.edu/ml/datasets/Student+Performance. The data attributes include student grades, demographic, social and school related features and it was collected by using school reports and questionnaires. Two datasets are provided regarding the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por). One table was students from a math course, and the other students from Portuguese course. The two datasets were combined for this analysis.
+
+The data consists of 382 obsevations (students) and 35 variables. The 35 column names are as follows:
+
+```{r, echo=FALSE}
+
+alc2 <- read.csv(file = "/Users/mikko/Documents/GitHub/IODS-project/data/alc.csv", header = T, sep=",")
+colnames(alc2)
+```
+
+Two variables are describing the student's alcohol use. The variable "alc_use" is the average alcochol use on weekdays and weekends together. The variable "high_use" indicates if the average alcohol use is more than 2.
+

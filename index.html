@@ -147,6 +147,7 @@ $(document).ready(function () {
 <ul>
 <li><a href="#introduction-to-open-data-science-2018">Introduction to Open Data Science 2018</a></li>
 <li><a href="#regression-and-model-validation">2. Regression and model validation</a></li>
+<li><a href="#logistic-regression">3: Logistic regression</a></li>
 </ul>
 </div>
 
@@ -265,6 +266,23 @@ $(document).ready(function () {
 <div id="section-1" class="section level3">
 <h3>5.</h3>
 <p>The model has an assumption that the residuals are normally distributed. The residuals are the differences between the predicted and observed values in a given point.</p>
+<hr />
+</div>
+</div>
+<div id="logistic-regression" class="section level1">
+<h1>3: Logistic regression</h1>
+<div id="section-2" class="section level3">
+<h3></h3>
+<p>The data consists of two data sets retrieved from the UCI Machine Learning Repository using Student performance dataset from <a href="https://archive.ics.uci.edu/ml/datasets/Student+Performance" class="uri">https://archive.ics.uci.edu/ml/datasets/Student+Performance</a>. The data attributes include student grades, demographic, social and school related features and it was collected by using school reports and questionnaires. Two datasets are provided regarding the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por). One table was students from a math course, and the other students from Portuguese course. The two datasets were combined for this analysis.</p>
+<p>The data consists of 382 obsevations (students) and 35 variables. The 35 column names are as follows:</p>
+<pre><code>##  [1] &quot;school&quot;     &quot;sex&quot;        &quot;age&quot;        &quot;address&quot;    &quot;famsize&quot;   
+##  [6] &quot;Pstatus&quot;    &quot;Medu&quot;       &quot;Fedu&quot;       &quot;Mjob&quot;       &quot;Fjob&quot;      
+## [11] &quot;reason&quot;     &quot;nursery&quot;    &quot;internet&quot;   &quot;guardian&quot;   &quot;traveltime&quot;
+## [16] &quot;studytime&quot;  &quot;failures&quot;   &quot;schoolsup&quot;  &quot;famsup&quot;     &quot;paid&quot;      
+## [21] &quot;activities&quot; &quot;higher&quot;     &quot;romantic&quot;   &quot;famrel&quot;     &quot;freetime&quot;  
+## [26] &quot;goout&quot;      &quot;Dalc&quot;       &quot;Walc&quot;       &quot;health&quot;     &quot;absences&quot;  
+## [31] &quot;G1&quot;         &quot;G2&quot;         &quot;G3&quot;         &quot;alc_use&quot;    &quot;high_use&quot;</code></pre>
+<p>Two variables are describing the student’s alcohol use. The variable “alc_use” is the average alcochol use on weekdays and weekends together. The variable “high_use” indicates if the average alcohol use is more than 2.</p>
 <hr />
 </div>
 </div>
