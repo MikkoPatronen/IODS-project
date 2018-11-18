@@ -37,3 +37,12 @@ g3 <- g3 + geom_bar(aes(fill=activities))
 g3
 
 ```
+
+The next barplot shows the mean of alcohol consumption according to the binary variable "romantic", which describes whether or not the individual is in a romantic relationship. This plot clearly supports our hypothesis: those who are not in a romantic relationship are the majority in mean values of 2 and higher. 
+
+```{R}
+g3<-ggplot(data = alc2, aes(x = alc_use))
+g3 <- g3 + geom_bar(aes(fill=romantic))
+g3
+
+```
