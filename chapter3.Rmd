@@ -84,6 +84,27 @@ alc2 %>% group_by(studytime, high_use) %>% summarise(count = n())
 Next I will conduct a logistic regression analysis to study the relationships between the independent variables ("sex", "studytime", "activities" and "romantic") and the dependent variable (high_use: the mean alcohol use > 2). Here is the summary of the analysis:
 
 ```{r, echo=FALSE}
+
 reg <- glm(high_use ~ sex + romantic + activities + studytime , data = alc2, family = "binomial")
 summary(reg)
+coef(reg)
 ```
+
+From the summary we can see that gender and studytime both have statistically significant estimates (p-value 0.00445 and 0.00384, respectively). I would like to see the intended results for "romantic" and "activities" also, since the reference level is automatically set to "yes" and I am supposed to reference the level "no". I can't find the way to change this setting so I'll just do the analysis without those two variables. So here is the new model:
+
+```{r, echo=FALSE}
+
+reg2 <- glm(high_use ~ sex + studytime , data = alc2, family = "binomial")
+summary(reg2)
+coef(reg2)
+
+OR <- coef(reg2) %>% exp
+
+CI <- confint(reg2) %>% exp
+
+cbind(OR, CI)
+```
+
+This model also gives statistically significant estimates for gender and studytime. Odds ratios can be interpreted so that males are 1.94 (95% confidence interval 1.21 - 3.12) times more likely to be high users of alcohol and also that studytime increase is associated with decreasing mean of alcohol consumption (OR 0.62, 95% confidence interval 0.45 - 0.83). These both interpretations support the original hypothesis: males are more likely to be high users of alcohol and low amount of studytime is associated with higher amounts of alcohol use.
+
+
