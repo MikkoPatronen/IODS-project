@@ -27,12 +27,13 @@ I think a barplot will describe the relationships quite well. This barplot below
 library(dplyr)
 library(ggplot2)
 g1<-ggplot(data = alc2, aes(x = alc_use))
-g1 <- g1 + geom_bar(aes(fill=sex))
+g1 <- g1 + geom_bar(aes(fill=sex)) + ggtitle("High alcohol use vs. gender")
 g1
 
 alc2 %>% group_by(sex, high_use) %>% summarise(count = n())
 
 ```
+
 
 
 #### High alcohol use vs. extra-curricular activities
@@ -41,11 +42,13 @@ The next barplot shows the mean of alcohol consumption according to the binary v
 
 ```{r, echo=FALSE}
 g3<-ggplot(data = alc2, aes(x = alc_use))
-g3 <- g3 + geom_bar(aes(fill=activities))
+g3 <- g3 + geom_bar(aes(fill=activities)) + ggtitle("High alcohol use vs. extra-curricular activities")
 g3
 
 alc2 %>% group_by(activities, high_use) %>% summarise(count = n())
 ```
+
+
 
 #### High alcohol use vs. being in a romantic relationship
 
@@ -53,7 +56,7 @@ The next barplot shows the mean of alcohol consumption according to the binary v
 
 ```{r, echo=FALSE}
 g3<-ggplot(data = alc2, aes(x = alc_use))
-g3 <- g3 + geom_bar(aes(fill=romantic))
+g3 <- g3 + geom_bar(aes(fill=romantic)) + ggtitle("High alcohol use vs. being in a romantic relationship")
 g3
 
 alc2 %>% group_by(romantic, high_use) %>% summarise(count = n())
@@ -61,6 +64,18 @@ alc2 %>% group_by(romantic, high_use) %>% summarise(count = n())
 
 
 
+#### High alcohol use vs. studytime
+
+Finally we have a boxplot that also supports our hypothesis: those who have lower amounts of studytime per week are forming the majority in having high alcohol use. The summary statistic by group also shows that when the studytime decreases, the amount of individuals that have high alcohol use increases.
+
+
+```{r, echo=FALSE}
+
+g4 <- ggplot(alc2, aes(x = high_use, y = studytime)) + geom_boxplot() + ggtitle("High alcohol use vs. studytime")
+g4
+
+alc2 %>% group_by(studytime, high_use) %>% summarise(count = n())
+```
 
 
 
