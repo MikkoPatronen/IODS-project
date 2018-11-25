@@ -33,7 +33,7 @@ summary(Boston)
 ```
 
 
-Now, let's show correlations between variables and a graphical overview of those correlations in the data:
+Now, let's print correlation coefficients between variables and a graphical overview of those correlations in the data:
 
 ```{r include=FALSE}
 library(tidyverse)
@@ -47,7 +47,7 @@ cor_matrix
 corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos="d", tl.cex = 0.6)
 ```
 
-In the correlation matrix the colors indicate the direction of the correlation (red is negative and blue is positive correlation). Darker colors indicate stronger correlations. Based on this plot we can see that there is one variable pair that has strong positive correlation: "rad" and "tax" ("index of accessibility to radial highways" and "full-value property-tax rate per \$10,000"). Strong negative correlations are found between variables pairs: dis with age, nox and indus; lstat and medv. These variables are:
+In the correlation matrix the colors indicate the direction of the correlation (red is negative and blue is positive correlation). Darker colors indicate stronger correlations. Based on this plot we can see that there is one variable pair that has particularly strong positive correlation: "rad" and "tax" ("index of accessibility to radial highways" and "full-value property-tax rate per \$10,000"), r=0.91. The variable "dis" has strong negative correlations with variables "age" (r=-0.75), "nox" (r=-0.77) and "indus" (r=-0.71). Also strong negative correlation is shown between variables "lstat" and "medv" (r=-0.74). The mentioned variables are:
 dis = "weighted mean of distances to five Boston employment centres"
 nox = "nitrogen oxides concentration (parts per 10 million)"
 indus = "proportion of non-retail business acres per town"
