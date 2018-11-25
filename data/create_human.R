@@ -21,12 +21,12 @@ str(gii)
 summary(gii)
 
 # Task 4:
-library(plyr)
+library(data.table)
+setnames(hd, old = c("HDI.Rank", "Human.Development.Index..HDI.", "Life.Expectancy.at.Birth", "Expected.Years.of.Education", "Mean.Years.of.Education", "Gross.National.Income..GNI..per.Capita", "GNI.per.Capita.Rank.Minus.HDI.Rank"), new = c("HDIrank", "HDI", "LifeExp", "ExpEdu", "MeanEdu", "GNI_cap", "GNI_minus_HDI"))
 names(hd)
-rename(hd, c("HDI.Rank"="HDIrank", "Human.Development.Index..HDI."="HDI", "Life.Expectancy.at.Birth"="LifeExp", "Expected.Years.of.Education"="ExpEdu", "Mean.Years.of.Education"="MeanEdu", "Gross.National.Income..GNI..per.Capita"="GNI_cap", "GNI.per.Capita.Rank.Minus.HDI.Rank"="GNI_minus_HDI"))
 
+setnames(gii, old = c("GII.Rank", "Gender.Inequality.Index..GII.", "Maternal.Mortality.Ratio", "Adolescent.Birth.Rate", "Percent.Representation.in.Parliament", "Population.with.Secondary.Education..Female.", "Population.with.Secondary.Education..Male.", "Labour.Force.Participation.Rate..Female.", "Labour.Force.Participation.Rate..Male."), new = c("GIIrank", "GII", "MMratio", "AdBirthRate", "ReprInParl", "edu2F", "edu2M", "labF", "labM"))
 names(gii)
-rename(gii, c("GII.Rank"="GIIrank", "Gender.Inequality.Index..GII."="GII", "Maternal.Mortality.Ratio"="MMratio", "Adolescent.Birth.Rate"="AdBirthRate", "Percent.Representation.in.Parliament"="ReprInParl", "Population.with.Secondary.Education..Female."="edu2F", "Population.with.Secondary.Education..Male."="edu2M", "Labour.Force.Participation.Rate..Female."="labF", "Labour.Force.Participation.Rate..Male."="labM"))
 
 # Task 5:
 mutate(gii, edu2FM_ratio = edu2F / edu2M)
