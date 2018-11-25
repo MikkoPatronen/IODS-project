@@ -16,3 +16,10 @@ summary(hd)
 
 str(gii)
 summary(gii)
+
+names(hd)
+library(plyr)
+rename(hd, c("HDI.Rank"="HDIrank", "Human.Development.Index..HDI."="HDI", "Life.Expectancy.at.Birth"="LifeExp", "Expected.Years.of.Education"="ExpEdu", "Mean.Years.of.Education"="MeanEdu", "Gross.National.Income..GNI..per.Capita"="GNI_cap", "GNI.per.Capita.Rank.Minus.HDI.Rank"="GNI_minus_HDI"))
+
+names(gii)
+rename(gii, c("GII.Rank"="GIIrank", "Gender.Inequality.Index..GII."="GII", "Maternal.Mortality.Ratio"="MMratio", "Adolescent.Birth.Rate"="AdBirthRate", "Percent.Representation.in.Parliament"="ReprInParl", "Population.with.Secondary.Education..Female."="SeconEduF", "Population.with.Secondary.Education..Male."="SeconEduM", "Labour.Force.Participation.Rate..Female."="LabForceRateF", "Labour.Force.Participation.Rate..Male."="LabForceRateM"))
