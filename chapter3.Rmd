@@ -1,6 +1,9 @@
-# 3: Logistic regression
+---
+title: "3: Logistic regression"
+output: html_document
+---
 
-### 
+## 3: Logistic regression
 
 The data consists of two data sets retrieved from the UCI Machine Learning Repository using Student performance dataset from https://archive.ics.uci.edu/ml/datasets/Student+Performance. The data attributes include student grades, demographic, social and school related features and it was collected by using school reports and questionnaires. Two datasets are provided regarding the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por). One table was students from a math course, and the other students from Portuguese course. The two datasets were combined for this analysis.
 

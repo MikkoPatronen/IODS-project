@@ -1,6 +1,8 @@
-# 2. Regression and model validation
-
-
+---
+title: "2. Regression and model validation"
+output: html_document
+---
+## 2. Regression and model validation
 
 ### 1. The structure and dimensions of the data
 
