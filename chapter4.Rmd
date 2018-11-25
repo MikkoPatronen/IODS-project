@@ -32,6 +32,9 @@ Here is a **summary of the variables**:
 summary(Boston)
 ```
 
+
+Now let's show a graphical overview of the data and show summaries of the variables in the data:
+
 ```{r include=FALSE}
 library(tidyverse)
 library(dplyr)
@@ -66,6 +69,57 @@ class(boston_scaled)
 boston_scaled <- as.data.frame(boston_scaled)
 ```
 
+```{r}
+# create a quantile vector of crim
+bins <- quantile(boston_scaled$crim)
+
+# create a categorical variable 'crime'
+crime <- cut(boston_scaled$crim, label = c("low", "med_low", "med_high", "high"), breaks = bins, include.lowest = TRUE)
+
+# remove original crim from the dataset
+boston_scaled <- dplyr::select(boston_scaled, -crim)
+
+# add the new categorical value to scaled data
+boston_scaled <- data.frame(boston_scaled, crime)
+
+n <- nrow(boston_scaled)
+
+# choose randomly 80% of the rows
+ind <- sample(n,  size = n * 0.8)
+
+# create train set
+train <- boston_scaled[ind,]
+
+# create test set 
+test <- boston_scaled[-ind,]
+```
+
+```{r}
+# linear discriminant analysis
+lda.fit <- lda(crime ~ ., data = train)
+
+# print the lda.fit object
+lda.fit
+
+# the function for lda biplot arrows
+lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "orange", tex = 0.75, choices = c(1,2)){
+  heads <- coef(x)
+  arrows(x0 = 0, y0 = 0, 
+         x1 = myscale * heads[,choices[1]], 
+         y1 = myscale * heads[,choices[2]], col=color, length = arrow_heads)
+  text(myscale * heads[,choices], labels = row.names(heads), 
+       cex = tex, col=color, pos=3)
+}
+
+# target classes as numeric
+classes <- as.numeric(train$crime)
+
+# plot the lda results
+plot(lda.fit, dimen = 2, col = classes, pch = classes)
+lda.arrows(lda.fit, myscale = 1)
+
+```
 
 
-You can check out my R script for the Data wrangling part [here](https://github.com/MikkoPatronen/IODS-project/blob/master/data/create_alc.R).
+
+You can check out my R script for the Data wrangling part [here](https://github.com/MikkoPatronen/IODS-project/blob/master/data/create_human.R).
