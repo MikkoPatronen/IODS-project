@@ -33,7 +33,7 @@ summary(Boston)
 ```
 
 
-Now let's show a graphical overview of the data and show summaries of the variables in the data:
+Now, let's show correlations between variables and a graphical overview of those correlations in the data:
 
 ```{r include=FALSE}
 library(tidyverse)
