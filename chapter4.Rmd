@@ -118,6 +118,9 @@ classes <- as.numeric(train$crime)
 plot(lda.fit, dimen = 2, col = classes, pch = classes)
 lda.arrows(lda.fit, myscale = 1)
 
+# predict classes with test data
+lda.pred <- predict(lda.fit, newdata = test)
+
 ```
 
 
