@@ -29,9 +29,13 @@ setnames(gii, old = c("GII.Rank", "Gender.Inequality.Index..GII.", "Maternal.Mor
 names(gii)
 
 # Task 5:
-mutate(gii, edu2FM_ratio = edu2F / edu2M)
-mutate(gii, labFM_ratio = labF / labM)
+gii$edu2FM_ratio <-  gii$edu2F / gii$edu2M
+gii$labFM_ratio <- gii$labF / gii$labM
 
 # Task 6:
 human <- merge(hd, gii, "Country")
 str(human)
+
+# 195 obs and 19 variables :)
+
+write.csv(human, "human.csv", row.names = F)
