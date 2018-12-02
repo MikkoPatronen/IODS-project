@@ -117,5 +117,5 @@ rownames(human)
 
 # Save the data
 write.csv(human, file="human.csv", row.names = T)
-
+write.table(human, file = "human.txt")
 
