@@ -19,7 +19,7 @@ library(GGally)
 library(tidyr)
 library(MASS)
 library(corrplot)
-data(human)
+human <- read.table("human.txt")
 str(human)
 ```
 
@@ -36,4 +36,84 @@ The data includes 155 observations of 8 variables. They are:
 
 
 ## Graphical overview of the data
+
+```{r}
+summary(human)
+ggpairs(human)
+```
+Since the variables are not scaled, the means are quite different across variables.
+
+The ggpairs()-plot shows distributions of the variables and shows the correlations between the variables. The first half of the variables (Edu2.FM, Labo.FM, Edu.Exp and Life.Exp) have negative skewness and the latter half is positively skewed. 
+
+The corrplot() visualizes correlations between variables:
+
+```{r}
+cor(human)
+
+res1 <- cor.mtest(human, conf.level = .95)
+
+cor(human) %>% corrplot(p.mat = res1$p, method = "color", type = "upper",
+sig.level = c(.001, .01, .05), pch.cex = .9,
+insig = "label_sig", pch.col = "white", order = "AOE")
+```
+
+Blue color means positive correlation and red negative correlation. Lighter colors mean weaker association and darker colors stronger.
+
+## 5.2. Principal Component Analysis (PCA) on the non-standardized dataset
+
+Next we will conduct a principal component analysis (PCA) on the not standardized human data and show the variability captured by the principal components. A biplot will be drawn to display the observations by the first two principal components.
+
+```{r}
+# create and print out a summary of pca_human
+pca_human <- prcomp(human)
+s <- summary(pca_human)
+s
+
+# rounded percetanges of variance captured by each PC
+pca_pr <- 100*round(1*s$importance[2, ], digits = 3)
+
+# print out the percentages of variance
+pca_pr
+
+# create object pc_lab to be used as axis labels
+pc_lab<-paste0(names(pca_pr), " (", pca_pr, "%)")
+
+# draw a biplot
+biplot(pca_human, cex = c(0.8, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1], ylab = pc_lab[2])
+```
+
+## 5.3. Same with standardized data
+
+Let us standardize the data and then perform the PCA again:
+
+```{r}
+# standardize the variables
+human_std <- scale(human)
+
+# print out summaries of the standardized variables
+summary(human_std)
+
+# create and print out a summary of pca_human
+pca_human <- prcomp(human_std)
+
+s <- summary(pca_human)
+s
+
+# rounded percetanges of variance captured by each PC
+pca_pr <- 100*round(1*s$importance[2, ], digits = 3)
+
+# print out the percentages of variance
+pca_pr
+
+# create object pc_lab to be used as axis labels
+pc_lab<-paste0(names(pca_pr), " (", pca_pr, "%)")
+
+# draw a biplot
+biplot(pca_human, cex = c(0.6, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1], ylab = pc_lab[2])
+```
+
+Standardizing the data makes a big difference. The results from un-standardized and standardized datas are very different: the results from un-standardized variables showed that PC1 captures all the variation, but with standardized variables PC1 now captures 53,6% (PC2 captures 16,2% and PC3 9,6%).
+
+The variable Parli.F (the share of parliamentary seats held by women) has strong positive correlation with the variable Labo.FM (the ratio of labour force participation of females and males in each country).
+The variable Ado.Birth (the adolescent birth rate) is positively correlated with PC1.
 
