@@ -5,9 +5,9 @@ output: html_document
 
 # 5. Dimensionality reduction techniques
 
-This chapter is about dimensionality reduction techniques.  Principal Component Analysis (PCA) will be applied.
+This week's tasks present dimensionality reduction techniques. Principal Component Analysis (PCA) will be applied.
 
-The R script file that created the data file can be viewed [here](https://github.com/MikkoPatronen/IODS-project/blob/master/data/create_human.R). Let us introduce the data: 
+The R script file that created the data file can be viewed [here](https://github.com/MikkoPatronen/IODS-project/blob/master/data/create_human.R). Let us view information about the data: 
 
 ## 5.1 Summary of the variables in the data:
 
@@ -25,14 +25,14 @@ str(human)
 
 The data includes 155 observations of 8 variables. They are:
 
-* **Edu2.FM** : the ratio of female and male populations with secondary education in each country
-* **Labo.FM** : the ratio of labour force participation of females and males in each country
-* **Life.Exp** : life expectancy at birth
-* **Edu.Exp** : Expected years of schooling (years)
-* **GNI** : The gross national income
-* **Mat.Mor** :The maternal mortality ratio
-* **Ado.Birth** : the adolescent birth rate
-* **Parli.F** : the share of parliamentary seats held by women
+* **Edu2.FM** - the ratio of female and male populations with secondary education in each country
+* **Labo.FM** - the ratio of labour force participation of females and males in each country
+* **Life.Exp** - life expectancy at birth
+* **Edu.Exp** - Expected years of schooling (years)
+* **GNI** - The gross national income
+* **Mat.Mor** - The maternal mortality ratio
+* **Ado.Birth** - the adolescent birth rate
+* **Parli.F** - the share of parliamentary seats held by women
 
 
 ## Graphical overview of the data
@@ -41,9 +41,10 @@ The data includes 155 observations of 8 variables. They are:
 summary(human)
 ggpairs(human)
 ```
+
 Since the variables are not scaled, the means are quite different across variables.
 
-The ggpairs()-plot shows distributions of the variables and shows the correlations between the variables. The first half of the variables (Edu2.FM, Labo.FM, Edu.Exp and Life.Exp) have negative skewness and the latter half is positively skewed. 
+The ggpairs()-plot shows distributions of the variables and shows the correlations between the variables. The first four of the variables (Edu2.FM, Labo.FM, Edu.Exp and Life.Exp) have negative skewness and the remaining four variables are positively skewed. 
 
 The corrplot() visualizes correlations between variables:
 
