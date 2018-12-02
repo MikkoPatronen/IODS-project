@@ -117,3 +117,44 @@ Standardizing the data makes a big difference. The results from un-standardized 
 The variable Parli.F (the share of parliamentary seats held by women) has strong positive correlation with the variable Labo.FM (the ratio of labour force participation of females and males in each country).
 The variable Ado.Birth (the adolescent birth rate) is positively correlated with PC1.
 
+## 5.4 Personal interpretations
+
+PCA reduces dimensions of a dataset into components that explain the variance in the data. The arrows of the variables can be interpreted so that the PC1 consists of Mat.Mor, Ado.Birth, Edu.Exp, Edu2.FM, Life.Exp and GNI.  PC2 consists of Parli.F and Labo.FM. PC1 explains 53,6% of the variance in the data. PC2 explains 16,2% of the variance.
+
+## 5.5 Multiple Correspondence Analysis
+
+The structure and the dimensions of the data:
+
+I picked the variables "breakfast", "evening", "sex", "sugar", "where", "lunch" to form my subdata. Here is some information about the structure of the data and some visualizations:
+
+```{r}
+library(FactoMineR)
+library(tidyr)
+library(dplyr)
+
+data("tea")
+
+tea_mca = tea[, c("breakfast", "evening", "sex", "sugar", "where", "lunch")]
+
+summary(tea_mca)
+str(tea_mca)
+
+gather(tea_mca) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") +geom_bar()+theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+```
+
+The dataset tea_mca consists of 300 observations of 6 variables.
+
+## MCA:
+
+```{r}
+mca <- MCA(tea_mca, graph = FALSE)
+
+summary(mca)
+```
+
+The summary of the MCA lists the explained variances. The first dimension explains 18,55% of the variance the second dimension explains 16,99%, the third 15,29%.
+
+```{r}
+plot(mca, invisible=c("ind"), habillage="quali")
+```
+
