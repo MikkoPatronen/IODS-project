@@ -89,7 +89,7 @@ human <- filter(human, complete.cases(human))
 # Explore the variable "country"
 human$Country
 
-# Somehow my data is ordered the same way as the data in Datacamp exercise - the countries in my data are listed alphabetically and therefore the last 7 rows are not the same as in Datacamp. 
+# Somehow my data is not ordered the same way as the data in Datacamp exercise - the countries in my data are listed alphabetically and therefore the last 7 rows are not the same as in Datacamp. 
 # So I can not use the code from Datacamp. Instead:
 
 # There are 7 areas that are regions:
