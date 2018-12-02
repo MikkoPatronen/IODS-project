@@ -1,0 +1,39 @@
+---
+title: "5. Dimensionality reduction techniques"
+output: html_document
+---
+
+# 5. Dimensionality reduction techniques
+
+This chapter is about dimensionality reduction techniques.  Principal Component Analysis (PCA) will be applied.
+
+The R script file that created the data file can be viewed [here](https://github.com/MikkoPatronen/IODS-project/blob/master/data/create_human.R). Let us introduce the data: 
+
+## 5.1 Summary of the variables in the data:
+
+```{r}
+rm(list=ls()) 
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(tidyr)
+library(MASS)
+library(corrplot)
+data(human)
+str(human)
+```
+
+The data includes 155 observations of 8 variables. They are:
+
+* **Edu2.FM** : the ratio of female and male populations with secondary education in each country
+* **Labo.FM** : the ratio of labour force participation of females and males in each country
+* **Life.Exp** : life expectancy at birth
+* **Edu.Exp** : Expected years of schooling (years)
+* **GNI** : The gross national income
+* **Mat.Mor** :The maternal mortality ratio
+* **Ado.Birth** : the adolescent birth rate
+* **Parli.F** : the share of parliamentary seats held by women
+
+
+## Graphical overview of the data
+
