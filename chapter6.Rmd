@@ -1,0 +1,126 @@
+---
+title: "6: Analysis of longitudinal data"
+output: html_document
+---
+
+# 6: Analysis of longitudinal data
+
+This week's tasks focus on analysis of longitudinal data. Analysis will be conducted on two datasets in the way presented in chapters 8 and 9 from the book "Multivariate Analysis for the Behavioral Sciences".
+
+The datasets have been wrangled from wide form to long form before analysis. The R script file that created the data files can be viewed [here](https://github.com/MikkoPatronen/IODS-project/blob/master/data/meet_and_repeat.R). 
+
+```{r echo=TRUE, warning=FALSE} 
+rm(list=ls())
+setwd("~/Library/Mobile Documents/com~apple~CloudDocs/Documents/GitHub/IODS-project/data")
+
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(GGally)
+library(tidyr)
+library(readr)
+library(lme4)
+
+RATSL <- read.table("RATSL.txt")
+BPRSL <- read.table("BPRSL.txt")
+
+RATSL$ID <- factor(RATSL$ID)
+RATSL$Group <- factor(RATSL$Group)
+```
+
+## 1: Implement the analyses of chapter 8 of MABS using the RATS data
+
+
+The RATS data consists of three groups of rats. There are 16 rats in total. The groups were exposed to different diets and their weight in grams were measured weekly for nine weeks. The dimensions (rows and columns) of the RATS data are:
+
+```{r echo=TRUE, warning=FALSE}
+dim(RATSL)
+```
+
+Let us visualize the weight increase of the rats by groups:
+
+```{r echo=TRUE, warning=FALSE}
+ggplot(RATSL, aes(x = Time, y = Weight, linetype = ID, col = Group)) +
+geom_line() +
+scale_linetype_manual(values = rep(1:10, times=4)) +
+facet_grid(. ~ Group, labeller = label_both) +
+theme(legend.position = "none") + 
+scale_y_continuous(name = "Weight", limits = c(min(RATSL$Weight), max(RATSL$Weight)))
+```
+
+From the graph we can see that the rat weights seem to increase in all groups over time. There is also one big rat in group 2 that is much heavier than other rats in that group. In groups 2 and 3 the weight seem to have increased more than in group 1. Let us standardize the values to make the groups easier to compare, and plot the standardized data:
+
+```{r echo=TRUE, warning=FALSE}
+RATSL <- RATSL %>%
+group_by(Time) %>%
+mutate(stdWeight = (Weight-mean(Weight))/sd(Weight)) %>%
+ungroup()
+
+p1 <- ggplot(RATSL, aes(x = Time, y = stdWeight, linetype = ID, col = Group))
+p2 <- p1 + geom_line() + scale_linetype_manual(values = rep(1:10, times=4))
+p3 <- p2 + facet_grid(. ~ Group, labeller = label_both)
+p4 <- p3 + theme_bw() + theme(legend.position = "none")
+p5 <- p4 + theme(panel.grid.minor.y = element_blank())
+p6 <- p5 + scale_y_continuous(name = "standardized weight")
+p6
+```
+
+There does not seem to be huge differences in weight changes between groups. The same information can be seen from different visualization below, where the plot is built based on means and standard errors:
+
+```{r echo=TRUE, warning=FALSE}
+n <- length(0:8) # Time, incl. baseline (0)
+RATSS <- RATSL %>%
+group_by(Group, Time) %>%
+summarise( mean=mean(Weight), se=sd(Weight)/sqrt(n) ) %>%
+ungroup()
+
+p1 <- ggplot(RATSS, aes(x = Time, y = mean, linetype = Group, shape = Group, col = Group))
+p2 <- p1 + geom_line() + scale_linetype_manual(values = c(1,2,3))
+p3 <- p2 + geom_point(size=3) + scale_shape_manual(values = c(1,2,3))
+p4 <- p3 + geom_errorbar(aes(ymin=mean-se, ymax=mean+se, linetype="1"), width=0.3)
+p5 <- p4 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+p6 <- p5 + theme(legend.position = c(0.9,0.5))
+p7 <- p6 + scale_y_continuous(name = "mean(Weight) +/- se(Weight)")
+p7
+```
+
+Here we can see that the group 2 varies the most (remember that this group has the one rat that is bigger than others) and group 1 has least variation. Let us remove that one big rat from the group 2 and perform summary measure analysis with boxplots:
+
+```{r echo=TRUE, warning=FALSE}
+RATSLB <- RATSL %>%
+filter(Time> 0) %>%
+group_by(Group, ID) %>%
+summarise( mean=mean(Weight) ) %>%
+ungroup()
+
+# Remove the big rat:
+RATSLB1 <- RATSLB %>%
+filter(mean < 550)
+
+RATSLB2 <- RATSLB1 %>%
+filter(mean > 250)
+
+p1 <- ggplot(RATSLB2, aes(x = Group, y = mean, outline=FALSE, col = Group))
+p2 <- p1 + geom_boxplot(outline=FALSE)
+p3 <- p2 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+p4 <- p3 + stat_summary(fun.y = "mean", geom = "point", shape=23, size=4, fill = "white")
+p5 <- p4 + scale_y_continuous(name = "mean(Weight)")
+p5
+```
+
+All the groups have different means and groups 1 and 3 seem to contain one outlier value. Now we must conduct analysis of variance (ANOVA) to study whether the differences between groups are statistically significant. Here the null hypothesis is that the group means do not differ. 
+
+```{r echo=TRUE, warning=FALSE}
+res.aov <- aov(mean ~ Group, data = RATSLB2)
+summary(res.aov)
+```
+
+According to the ANOVA test the p-value is close to zero so we can infer that the groups differ in group means.
+
+## 2: Implement the analyses of chapter 9 of MABS using the BPRS data
+
+```{r echo=TRUE, warning=FALSE}
+dim(BPRSL)
+```
+
+The BPRS data consists of 40 subjects that are divided into two treatment groups. All subjects have been rated on BPRS (brief psychiatric rating scale) for 8 weeks in total.
