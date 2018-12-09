@@ -35,13 +35,13 @@ BPRSL$subject <- factor(BPRSL$subject)
 
 The RATS data consists of three groups of rats. There are 16 rats in total. The groups were exposed to different diets and their weight in grams were measured weekly for nine weeks. The dimensions (rows and columns) of the RATS data are:
 
-```{r echo=TRUE, warning=FALSE}
+```{r echo=F, warning=FALSE}
 dim(RATSL)
 ```
 
 Let us visualize the weight increase of the rats by groups:
 
-```{r echo=TRUE, warning=FALSE}
+```{r echo=F, warning=FALSE}
 ggplot(RATSL, aes(x = Time, y = Weight, linetype = ID, col = Group)) +
 geom_line() +
 scale_linetype_manual(values = rep(1:10, times=4)) +
@@ -52,7 +52,7 @@ scale_y_continuous(name = "Weight", limits = c(min(RATSL$Weight), max(RATSL$Weig
 
 From the graph we can see that the rat weights seem to increase in all groups over time. There is also one big rat in group 2 that is much heavier than other rats in that group. In groups 2 and 3 the weight seem to have increased more than in group 1. Let us standardize the values to make the groups easier to compare, and plot the standardized data:
 
-```{r echo=TRUE, warning=FALSE}
+```{r echo=F, warning=FALSE}
 RATSL <- RATSL %>%
 group_by(Time) %>%
 mutate(stdWeight = (Weight-mean(Weight))/sd(Weight)) %>%
@@ -69,7 +69,7 @@ p6
 
 There does not seem to be huge differences in weight changes between groups. The same information can be seen from different visualization below, where the plot is built based on means and standard errors:
 
-```{r echo=TRUE, warning=FALSE}
+```{r echo=F, warning=FALSE}
 n <- length(0:8) # Time, incl. baseline (0)
 RATSS <- RATSL %>%
 group_by(Group, Time) %>%
@@ -88,7 +88,7 @@ p7
 
 Here we can see that the group 2 varies the most (remember that this group has the one rat that is bigger than others) and group 1 has least variation. Let us remove that one big rat from the group 2 and perform summary measure analysis with boxplots:
 
-```{r echo=TRUE, warning=FALSE}
+```{r echo=F, warning=FALSE}
 RATSLB <- RATSL %>%
 filter(Time> 0) %>%
 group_by(Group, ID) %>%
@@ -112,7 +112,7 @@ p5
 
 All the groups have different means. Now we must conduct analysis of variance (ANOVA) to study whether the differences between groups are statistically significant. In this test the null hypothesis is that the group means do not differ.
 
-```{r echo=TRUE, warning=FALSE}
+```{r echo=F, warning=FALSE}
 res.aov <- aov(mean ~ Group, data = RATSLB2)
 summary(res.aov)
 ```
@@ -123,13 +123,13 @@ According to the ANOVA test the p-value is close to zero. Therefore we can infer
 
 The BPRS data consists of 40 male subjects that were divided into two groups that received different treatments. All subjects were rated on BPRS (brief psychiatric rating scale) for 8 weeks in total. The scale evaluates schizophrenia among the patients.
 The dimensions of the dataset (rows and columns) are 
-```{r echo=TRUE, warning=FALSE}
+```{r echo=F, warning=FALSE}
 dim(BPRSL)
 ```
 
 Here is a plot of the two groups showing changes among individuals through eight weeks:
 
-```{r echo=TRUE, warning=FALSE}
+```{r echo=F, warning=FALSE}
 ggplot(BPRSL, aes(x = week, y = bprs, linetype = subject)) +
 geom_line() +
 scale_linetype_manual(values = rep(1:10, times=4)) +
@@ -138,6 +138,54 @@ theme(legend.position = "none") +
 scale_y_continuous(limits = c(min(BPRSL$bprs), max(BPRSL$bprs)))
 ```
 
+This plot is not very informative: it does not tell much about the differences between the treatments, although group 1 seems to be having more coherent effect of decreasing through time. Let us conduct a basic linear regression to study this data further:
 
+```{r echo=F, warning=FALSE}
+BPRS_reg <- lm(bprs ~ week + treatment, data = BPRSL)
+summary(BPRS_reg)
+```
+
+The results indicate that according to this model the treatment is not statistically signicantly associated with the development of the BPRS values. Weeks on the other hand seem to have statistically signicant effect. Next let us try fitting a **linear mixed effects model** that takes into account the fact that our observations are not independent.
+
+```{r echo=F, warning=FALSE}
+BPRS_ref <- lmer(bprs ~ week + treatment + (1 | subject), data = BPRSL, REML = FALSE)
+summary(BPRS_ref)
+```
+
+In this model we can see that standard errors of treatment and week are smaller than in previous model. Let us test which model is better with ANOVA:
+
+```{r echo=F, warning=FALSE}
+anova(BPRS_ref, BPRS_reg)
+```
+
+ANOVA indicates that the *linear mixed effects model* is better of the two models. 
+
+Let us plot the model and compare it with original data:
+
+```{r echo=F, warning=FALSE}
+ggplot(BPRSL, aes(x = week, y = bprs, group = subject)) +
+geom_line(aes(linetype = treatment)) +
+scale_linetype_manual(values = rep(1:10, times=4)) +
+facet_grid(. ~ treatment, labeller = label_both) +
+theme(legend.position = "none") + 
+scale_y_continuous(limits = c(min(BPRSL$bprs), max(BPRSL$bprs)))
+```
+
+```{r echo=F, warning=FALSE}
+Fitted <- fitted(BPRS_ref)
+
+BPRSL <- BPRSL %>%
+mutate(Fitted)
+
+
+ggplot(BPRSL, aes(x = week, y = Fitted, group = subject)) +
+geom_line(aes(linetype = treatment)) +
+scale_linetype_manual(values = rep(1:10, times=4)) +
+facet_grid(. ~ treatment, labeller = label_both) +
+theme(legend.position = "none") + 
+scale_y_continuous(limits = c(min(BPRSL$bprs), max(BPRSL$bprs)))
+```
+
+We can see from the plot that it does give fairly good understanding of the treatments between groups. The first group has a more clear decrease in BPRS values in the model version, just as it was in the original data.
 
 
