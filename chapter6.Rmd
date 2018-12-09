@@ -26,9 +26,11 @@ BPRSL <- read.table("BPRSL.txt")
 
 RATSL$ID <- factor(RATSL$ID)
 RATSL$Group <- factor(RATSL$Group)
+BPRSL$treatment <- factor(BPRSL$treatment)
+BPRSL$subject <- factor(BPRSL$subject)
 ```
 
-## 1: Implement the analyses of chapter 8 of MABS using the RATS data
+## 6.1: Implement the analyses of chapter 8 of MABS using the RATS data
 
 
 The RATS data consists of three groups of rats. There are 16 rats in total. The groups were exposed to different diets and their weight in grams were measured weekly for nine weeks. The dimensions (rows and columns) of the RATS data are:
@@ -108,19 +110,34 @@ p5 <- p4 + scale_y_continuous(name = "mean(Weight)")
 p5
 ```
 
-All the groups have different means and groups 1 and 3 seem to contain one outlier value. Now we must conduct analysis of variance (ANOVA) to study whether the differences between groups are statistically significant. Here the null hypothesis is that the group means do not differ. 
+All the groups have different means. Now we must conduct analysis of variance (ANOVA) to study whether the differences between groups are statistically significant. In this test the null hypothesis is that the group means do not differ.
 
 ```{r echo=TRUE, warning=FALSE}
 res.aov <- aov(mean ~ Group, data = RATSLB2)
 summary(res.aov)
 ```
 
-According to the ANOVA test the p-value is close to zero so we can infer that the groups differ in group means.
+According to the ANOVA test the p-value is close to zero. Therefore we can infer that the groups differ in group means.
 
-## 2: Implement the analyses of chapter 9 of MABS using the BPRS data
+## 6.2: Implement the analyses of chapter 9 of MABS using the BPRS data
 
+The BPRS data consists of 40 male subjects that were divided into two groups that received different treatments. All subjects were rated on BPRS (brief psychiatric rating scale) for 8 weeks in total. The scale evaluates schizophrenia among the patients.
+The dimensions of the dataset (rows and columns) are 
 ```{r echo=TRUE, warning=FALSE}
 dim(BPRSL)
 ```
 
-The BPRS data consists of 40 subjects that are divided into two treatment groups. All subjects have been rated on BPRS (brief psychiatric rating scale) for 8 weeks in total.
+Here is a plot of the two groups showing changes among individuals through eight weeks:
+
+```{r echo=TRUE, warning=FALSE}
+ggplot(BPRSL, aes(x = week, y = bprs, linetype = subject)) +
+geom_line() +
+scale_linetype_manual(values = rep(1:10, times=4)) +
+facet_grid(. ~ treatment, labeller = label_both) +
+theme(legend.position = "none") + 
+scale_y_continuous(limits = c(min(BPRSL$bprs), max(BPRSL$bprs)))
+```
+
+
+
+
